@@ -1,1 +1,1 @@
-# lighthoust-pipeline
+# lighthouse-pipeline
