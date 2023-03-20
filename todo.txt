@@ -1,0 +1,3 @@
+https://github.com/chromedp
+https://news.ycombinator.com/item\?id\=14104359
+https://medium.com/@eknkc/how-to-run-headless-chrome-in-scale-7a3c7c83b28f

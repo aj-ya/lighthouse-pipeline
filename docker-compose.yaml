@@ -1,0 +1,25 @@
+services:
+  chrome:
+    container_name: chrome-headless
+    image: zenika/alpine-chrome:latest
+    command: [chromium-browser, "--headless",'--disable-storage-reset', "--disable-gpu", "--remote-debugging-address=0.0.0.0", "--remote-debugging-port=9222" ,'--autoplay-policy=user-gesture-required','--disable-background-networking','--disable-background-timer-throttling','--disable-backgrounding-occluded-windows','--disable-breakpad','--disable-client-side-phishing-detection','--disable-component-update','--disable-default-apps','--disable-dev-shm-usage','--disable-domain-reliability','--disable-extensions','--disable-features=AudioServiceOutOfProcess','--disable-hang-monitor','--disable-ipc-flooding-protection','--disable-notifications','--disable-offer-store-unmasked-wallet-cards','--disable-popup-blocking','--disable-print-preview','--disable-prompt-on-repost','--disable-renderer-backgrounding','--disable-setuid-sandbox','--disable-speech-api','--disable-sync','--hide-scrollbars','--ignore-gpu-blacklist','--metrics-recording-only','--mute-audio','--no-default-browser-check','--no-first-run','--no-pings','--no-sandbox','--no-zygote','--password-store=basic','--use-gl=swiftshader','--use-mock-keychain']
+    ports:
+      - "9222:9222"
+    depends_on:
+      job-queue:
+        condition: service_healthy
+  job-queue:
+    container_name: job-queue
+    image: redis:alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: "5s"
+    volumes:
+      - queue_data:/data
+volumes:
+  queue_data:
+    driver: local
+    
